@@ -1,0 +1,39 @@
+diff --git a/Kbuild b/Kbuild
+index 464b34a08..3a1b76adf 100644
+--- a/Kbuild
++++ b/Kbuild
+@@ -97,3 +97,4 @@ obj-$(CONFIG_SAMPLES)	+= samples/
+ obj-$(CONFIG_NET)	+= net/
+ obj-y			+= virt/
+ obj-y			+= $(ARCH_DRIVERS)
++obj-y			+= process_info/
+diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+index 575810492..d6625bbc0 100644
+--- a/include/linux/syscalls.h
++++ b/include/linux/syscalls.h
+@@ -77,6 +77,8 @@ struct cachestat_range;
+ struct cachestat;
+ struct statmount;
+ struct mnt_id_req;
++struct process_info_struct;
++
+ 
+ #include <linux/types.h>
+ #include <linux/aio_abi.h>
+@@ -1304,3 +1306,6 @@ int __sys_getsockopt(int fd, int level, int optname, char __user *optval,
+ int __sys_setsockopt(int fd, int level, int optname, char __user *optval,
+ 		int optlen);
+ #endif
++
++
++asmlinkage long sys_process_info(pid_t pid, struct process_info_struct __user *process_info);
+\ No newline at end of file
+diff --git a/scripts/syscall.tbl b/scripts/syscall.tbl
+index 845e24eb3..106fa3e3a 100644
+--- a/scripts/syscall.tbl
++++ b/scripts/syscall.tbl
+@@ -403,3 +403,4 @@
+ 460	common	lsm_set_self_attr		sys_lsm_set_self_attr
+ 461	common	lsm_list_modules		sys_lsm_list_modules
+ 462	common	mseal				sys_mseal
++463	common	process_info 				sys_process_info
